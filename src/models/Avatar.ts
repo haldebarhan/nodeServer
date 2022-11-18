@@ -1,14 +1,17 @@
-import { Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 
 interface Img {
+    fileName: any;
     file: any;
-    uploadedAt: Date
+    uploadTime: Date
 }
 
 const ImageShema = new Schema<Img>({
-    file: {
-        data: Buffer,
-        contentType: String
-    },
-    uploadedAt: {type: Date, default: Date.now()}
+    fileName: {type: String},
+    file: {data: Buffer, contentType: String},
+    uploadTime: {type: Date, default: Date.now()}
 })
+
+const imageModel = model<Img>('Image', ImageShema)
+
+export default imageModel

@@ -16,7 +16,7 @@ constructor(){
 
 config(){
     this.router.get('/',userController.index)
-    this.router.post('/', upload.single('Avatar') ,userController.register)
+    this.router.post('/', upload.single('file') ,userController.register)
     this.router.get('/:id',userController.getOne)
    
 }

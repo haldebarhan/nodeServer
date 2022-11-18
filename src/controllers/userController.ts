@@ -1,4 +1,5 @@
 import { Request, Response, text } from "express";
+import imageModel from "../models/Avatar";
 import MagistraModel from "../models/Magistra";
 
 class UserController {
@@ -10,12 +11,18 @@ class UserController {
     }
 
     public  register(req: Request, res: Response) {
-        const user = req.body
-        const mag = new MagistraModel({...user})
-        if (req.file) mag.Avatar = req.file.path
-            mag.save()
-                .then(() => res.send({ text: 'Donnée enregistrée' }))
-                .catch((error) => res.send(error.message))
+        let imageObject = {
+            file: {
+                data: req.file?.buffer,
+                contentType: req.file?.mimetype
+            },
+            fileName: req.body.fileName,
+        }
+
+        const uploadImage = new imageModel(imageObject)
+        uploadImage.save()
+                    .then(()=> res.send("Image enregistrée avec succes"))
+                    .catch((error) => res.send(error))
     }
 
     public getOne(req: Request, res: Response) {
